@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const bycrypt = require('bcryptjs');
 
 //create schema
 
@@ -102,7 +103,12 @@ const userSchema = new mongoose.Schema({
     },
     timestamps:true
 })
-
+//hash password
+userSchema.pre("save", async function(next) {
+    const salt = await bycrypt.genSalt(10);
+    this.password = await bycrypt.hash(this.password, salt);
+    next()
+})
 // Compile schema into model
 const User = mongoose.model('User', userSchema);
 module.exports = User;
