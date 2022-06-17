@@ -4,11 +4,15 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 const {userRegisterCtrl} = require('./controllers/users/usersCtrl');
- 
+
+
+//import routes
+const usersRoute = require('./route/users/usersRoute');
 //server 
 dbConnect();
 //Middleware
 app.use(express.json());
-//Register
+//users Route
+app.use('/api/users', usersRoute);
 app.post('/api/users/register', userRegisterCtrl);
 app.listen(5000, console.log(`Server started on port ${PORT}`));
