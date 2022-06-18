@@ -112,12 +112,24 @@ const userDetailsCtrl = expressAsyncHandler(async (req, res) => {
  //Update User Profile
  //----------------------------------------------------------------------------------------------------------------------
 const updateUserProfileCtrl = expressAsyncHandler(async (req, res) => {
-    console.log(req.user);
-    // try {
+    const {id} = req?.user
+    validateMongodbID(id);
+    console.log(id)
+    try {
+        const user = await User.findByIdAndUpdate(id, {
+            firstName:req?.body?.firstName,
+            lastName:req?.body?.lastName,
+            email:req?.body?.email,
+            bio:req?.body?.bio,
+        }, {
+            new: true,
+            runValidators: true,
+        });
+        res.status(200).json(user);
+    } catch (error) {
+        res.json(error);
         
-    // } catch (error) {
-        
-    // }
+    }
 
 })
 
