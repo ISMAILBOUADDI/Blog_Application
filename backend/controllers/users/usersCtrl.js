@@ -93,4 +93,40 @@ const userDetailsCtrl = expressAsyncHandler(async (req, res) => {
     
     })
 
-module.exports = {userRegisterCtrl, loginUserCtrl, fetchUserCtrl, deleteUserCtrl ,userDetailsCtrl};
+    //----------------------------------------------------------------------------------------------------------------------
+    //User profile
+    //----------------------------------------------------------------------------------------------------------------------
+ const userProfileCtrl = expressAsyncHandler(async (req, res) => {
+    const {id} = req.params;
+    validateMongodbID(id);
+    try {
+        const myProfile = await User.findById(id);
+        res.status(200).json(myProfile);
+     } catch (error) {
+        
+     }
+
+ })
+
+ //----------------------------------------------------------------------------------------------------------------------
+ //Update User Profile
+ //----------------------------------------------------------------------------------------------------------------------
+const updateUserProfileCtrl = expressAsyncHandler(async (req, res) => {
+    console.log(req.user);
+    // try {
+        
+    // } catch (error) {
+        
+    // }
+
+})
+
+module.exports = {
+        userRegisterCtrl,
+        loginUserCtrl,
+        fetchUserCtrl,
+        deleteUserCtrl,
+        userDetailsCtrl,
+        userProfileCtrl,
+        updateUserProfileCtrl,
+    };
