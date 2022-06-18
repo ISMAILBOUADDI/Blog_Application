@@ -13,7 +13,7 @@ const router = express.Router();
 
 router.post('/register', userRegisterCtrl);
 router.post('/login', loginUserCtrl);
-router.get('/', fetchUserCtrl);
+router.get('/', authMiddleware, fetchUserCtrl);
 router.delete('/:id', deleteUserCtrl);
 router.get('/:id', userDetailsCtrl);
 module.exports = router;

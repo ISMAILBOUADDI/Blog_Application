@@ -8,10 +8,11 @@ const authMiddleware = expressAsyncHandler(async (req, res, next) => {
    if(req?.headers?.authorization?.startsWith('Bearer')){
        try {
         token = req.headers.authorization.split(' ')[1];
+        console.log(token);
         if(token){
             const decoded = jwt.verify(token, process.env.JWT_SECRET);
             //find the user by id
-            const user = await User.gindbyId(decoded.id).select('-password');
+            const user = await User.findById(decoded.id).select('-password');
             //attach the user to the request object
             req.user = user;
             next();
