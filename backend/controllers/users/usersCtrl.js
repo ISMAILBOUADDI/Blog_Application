@@ -1,5 +1,9 @@
 const User = require('../../model/user/User');
 const expressAsyncHandler = require('express-async-handler');
+const generateToken = require('../../config/token/generateToken');
+const validateMongodbID = require('../../Utils/validateMongodbID');
+
+
 
 const userRegisterCtrl = expressAsyncHandler(async (req, res) => {
     //   console.log(req.body);
@@ -18,4 +22,75 @@ const userRegisterCtrl = expressAsyncHandler(async (req, res) => {
         res.json(error);
         }
     });
-module.exports = {userRegisterCtrl};
+    //----------------------------------------------------------------------------------------------------------------------
+    //login user
+    //----------------------------------------------------------------------------------------------------------------------
+    const loginUserCtrl = expressAsyncHandler(async (req, res) => {
+        const{email,password} = req.body;
+        //Check if user already exists
+        const user = await User.findOne({ email });
+        // if(!user) throw new Error('Login failed');
+        //check if passowrd is correct
+        if(user && (await user.isPasswordMatched(password))){
+            res.json({
+               firstName:user?.firstName,
+               lastName:user?.lastName, 
+                email:user?.email,
+                profilePhoto:user?.profilePhoto,
+                bio:user?.bio,
+                postCount:user?.postCount,
+                token:generateToken(user._id),
+            })
+        }else{
+            res.status(404)
+            throw new Error('Login failed');
+        }
+    });
+
+//----------------------------------------------------------------------------------------------------------------------
+//get user
+//----------------------------------------------------------------------------------------------------------------------
+const fetchUserCtrl = expressAsyncHandler(async (req, res) => {
+    try {
+        const users = await User.find({});
+        res.status(200).json(users);
+    } catch (error) {
+        res.json(error);
+    }
+});
+//-----------------------
+//delete user
+//-----------------------
+const deleteUserCtrl = expressAsyncHandler(async (req, res) => {
+    const {id} = req.params;
+    //check id id is valid
+    validateMongodbID(id);
+
+    try {
+        const user = await User.findByIdAndDelete(id);
+        res.status(200).json(user);
+    } catch (error) {
+        res.json(error);
+    }
+
+});
+
+//----------------------------------------------------------------------------------------------------------------------
+//user details
+//----------------------------------------------------------------------------------------------------------------------
+
+    
+const userDetailsCtrl = expressAsyncHandler(async (req, res) => {
+      const {id} = req.params;
+        //check id id is valid
+        validateMongodbID(id);
+        try {
+            const user = await User.findById(id);
+            res.status(200).json(user);
+        } catch (error) {
+            res.json(error);
+        }
+    
+    })
+
+module.exports = {userRegisterCtrl, loginUserCtrl, fetchUserCtrl, deleteUserCtrl ,userDetailsCtrl};
