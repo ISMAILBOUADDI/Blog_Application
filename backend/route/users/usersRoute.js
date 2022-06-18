@@ -7,6 +7,7 @@ const {
     deleteUserCtrl,
     userDetailsCtrl
 } = require('../../controllers/users/usersCtrl');
+const authMiddleware = require('../../middlewares/auth/authMiddleware');
 
 const router = express.Router();
 
