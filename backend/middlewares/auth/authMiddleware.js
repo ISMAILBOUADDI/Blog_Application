@@ -26,4 +26,5 @@ const authMiddleware = expressAsyncHandler(async (req, res, next) => {
 
 });
 
+
 module.exports = authMiddleware;
