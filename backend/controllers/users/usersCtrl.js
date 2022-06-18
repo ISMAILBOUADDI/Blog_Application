@@ -139,10 +139,12 @@ const updateUserProfileCtrl = expressAsyncHandler(async (req, res) => {
 
     const updatePasswordCtrl = expressAsyncHandler(async (req, res) => {
         //destructure the login user
+        console.log(req.user)
         const {id} = req?.user
         validateMongodbID(id);
         //find the user by id
         const user = await User.findById(id);
+        const {password} = req?.body;
 
         if(password){
             user.password = password;
@@ -150,6 +152,7 @@ const updateUserProfileCtrl = expressAsyncHandler(async (req, res) => {
             res.json(updatedUser)
 
         }
+        res.json(user)
 
     })
 module.exports = {
@@ -160,5 +163,5 @@ module.exports = {
         userDetailsCtrl,
         userProfileCtrl,
         updateUserProfileCtrl,
-        updatePasswordCtrl
+        updatePasswordCtrl,
     };
