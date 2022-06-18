@@ -22,6 +22,8 @@ const authMiddleware = expressAsyncHandler(async (req, res, next) => {
        } catch (error) {
          throw new Error('Not authorized token wxpired, login again');
        }
+   }else{
+       throw new Error('No token attached to the header');
    }
 
 });
