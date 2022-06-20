@@ -155,6 +155,19 @@ const updateUserProfileCtrl = expressAsyncHandler(async (req, res) => {
         res.json(user)
 
     })
+
+    //----------------------------------------------------------------------------------------------------------------------
+    //following
+    //----------------------------------------------------------------------------------------------------------------------
+const followingUserCtrl = expressAsyncHandler(async (req, res) => {
+// 1 find the user you want to follow and update it's follower's field
+// 2 update the login user following field
+    const {followId} = req?.body
+    const loginUserId = req?.user?.id;
+    console.log({followId,loginUserId})
+    res.json("test following user")
+
+})
 module.exports = {
         userRegisterCtrl,
         loginUserCtrl,
@@ -164,4 +177,5 @@ module.exports = {
         userProfileCtrl,
         updateUserProfileCtrl,
         updatePasswordCtrl,
+        followingUserCtrl,
     };
