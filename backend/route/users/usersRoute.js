@@ -9,6 +9,7 @@ const {
     userProfileCtrl,
     updateUserProfileCtrl,
     updatePasswordCtrl,
+    followingUserCtrl,
 } = require('../../controllers/users/usersCtrl');
 const authMiddleware = require('../../middlewares/auth/authMiddleware');
 
@@ -17,8 +18,9 @@ const router = express.Router();
 router.post('/register', userRegisterCtrl);
 router.post('/login', loginUserCtrl);
 router.get('/', authMiddleware, fetchUserCtrl);
-router.get("/profile/:id", authMiddleware, userProfileCtrl);
 router.put("/password", authMiddleware, updatePasswordCtrl);
+router.put("/follow",authMiddleware,followingUserCtrl);
+router.get("/profile/:id", authMiddleware, userProfileCtrl);
 router.put("/:id", authMiddleware, updateUserProfileCtrl);
 router.delete('/:id', deleteUserCtrl);
 router.get('/:id', userDetailsCtrl);
