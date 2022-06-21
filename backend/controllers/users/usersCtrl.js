@@ -139,7 +139,7 @@ const updateUserProfileCtrl = expressAsyncHandler(async (req, res) => {
 
     const updatePasswordCtrl = expressAsyncHandler(async (req, res) => {
         //destructure the login user
-        console.log(req.user)
+        // console.log(req.user)
         const {id} = req?.user
         validateMongodbID(id);
         //find the user by id
@@ -160,14 +160,49 @@ const updateUserProfileCtrl = expressAsyncHandler(async (req, res) => {
     //following
     //----------------------------------------------------------------------------------------------------------------------
 const followingUserCtrl = expressAsyncHandler(async (req, res) => {
-// 1 find the user you want to follow and update it's follower's field
-// 2 update the login user following field
+    // 1 find the user you want to follow and update it's follower's field
     const {followId} = req?.body
     const loginUserId = req?.user?.id;
-    console.log({followId,loginUserId})
-    res.json("test following user")
+    // console.log({followId,loginUserId})
+    //find the target user and check if the login id exist
+    const targetUser = await User.findById(followId);
+    // console.log(targetUser)
+    const alreadyFollowing = targetUser?.followers?.find(user=> user?.toString() === loginUserId.toString())
+    console.log(alreadyFollowing)
+
+    if(alreadyFollowing) throw new Error('Already following')
+    await User.findByIdAndUpdate(followId, {
+        $push: {followers: loginUserId},
+        isFollowing: true,
+    },{new : true})
+    
+    // 2 update the login user following field
+    await  User.findByIdAndUpdate(loginUserId, {
+        $push: {following: followId},
+
+    },{new : true})
+    res.json("you have followed the user")
 
 })
+
+//----------------------------------------------------------------------------------------------------------------------
+//unfollow
+//----------------------------------------------------------------------------------------------------------------------
+
+const unfollowUserCtrl = expressAsyncHandler(async (req, res) => {
+    const {unfollowId} = req?.body
+    const loginUserId = req?.user?.id;
+    await User.findByIdAndUpdate(unfollowId, {
+        $pull: {followers: loginUserId},
+        isFollowing: false,
+    },{new : true})
+    await User.findByIdAndUpdate(loginUserId, {
+        $pull: {following: unfollowId},
+    },{new : true})
+
+    res.json("you have unfollowed this user")
+})
+
 module.exports = {
         userRegisterCtrl,
         loginUserCtrl,
@@ -178,4 +213,5 @@ module.exports = {
         updateUserProfileCtrl,
         updatePasswordCtrl,
         followingUserCtrl,
+        unfollowUserCtrl,
     };
