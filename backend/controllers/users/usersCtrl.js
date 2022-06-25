@@ -213,6 +213,7 @@ const blockUserCtrl = expressAsyncHandler(async(req,res)=>{
     const user = await User.findByIdAndUpdate(id,{
         isBlocked:true,}
         ,{new:true})
+        res.json(user)
 })
 module.exports = {
         userRegisterCtrl,
@@ -225,4 +226,5 @@ module.exports = {
         updatePasswordCtrl,
         followingUserCtrl,
         unfollowUserCtrl,
+        blockUserCtrl,
     };

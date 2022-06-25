@@ -11,6 +11,7 @@ const {
     updatePasswordCtrl,
     followingUserCtrl,
     unfollowUserCtrl,
+    blockUserCtrl,
 } = require('../../controllers/users/usersCtrl');
 const authMiddleware = require('../../middlewares/auth/authMiddleware');
 
