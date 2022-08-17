@@ -23,7 +23,7 @@ router.get('/', authMiddleware, fetchUserCtrl);
 router.put("/password", authMiddleware, updatePasswordCtrl);
 router.put("/follow",authMiddleware,followingUserCtrl);
 router.put("/unfollow",authMiddleware,unfollowUserCtrl);
-router.put("/block-user",authMiddleware,blockUserCtrl);
+router.put("/block-user/:id",authMiddleware,blockUserCtrl);
 router.get("/profile/:id", authMiddleware, userProfileCtrl);
 router.put("/:id", authMiddleware, updateUserProfileCtrl);
 router.delete('/:id', deleteUserCtrl);
