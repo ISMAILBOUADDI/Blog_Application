@@ -210,8 +210,11 @@ const blockUserCtrl = expressAsyncHandler(async(req,res)=>{
     const {id}= req.params.id
     validateMongodbID(id)
 
-    const user = await User.findByIdAndUpdate(id,{
-        isBlocked:true,}
+    const user = await User.findByIdAndUpdate(
+        id,
+        {
+        isBlocked:true,
+        }
         ,{new:true})
         res.json(user)
 })
