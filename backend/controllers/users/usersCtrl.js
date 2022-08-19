@@ -207,7 +207,7 @@ const unfollowUserCtrl = expressAsyncHandler(async (req, res) => {
 //---------------------------
 
 const blockUserCtrl = expressAsyncHandler(async(req,res)=>{
-    const {id}= req.params.id
+    const {id}= req.params
     validateMongodbID(id)
 
     const user = await User.findByIdAndUpdate(
@@ -218,7 +218,33 @@ const blockUserCtrl = expressAsyncHandler(async(req,res)=>{
         ,{new:true})
         res.json(user)
 })
+//---------------------------
+//unBlock users
+//---------------------------
+
+const unBlockUserCtrl = expressAsyncHandler(async(req,res)=>{
+    const {id}= req.params
+    validateMongodbID(id)
+
+    const user = await User.findByIdAndUpdate(
+        id,
+        {
+        isBlocked:false,
+        }
+        ,{new:true})
+        res.json(user)
+})
+
+//---------------------------
+//Profile photo uploade
+//---------------------------
+
+const profilePohotoUploadCtrl =  expressAsyncHandler(async (req , res) =>
+{
+    res.json("upload")
+})
 module.exports = {
+        profilePohotoUploadCtrl,
         userRegisterCtrl,
         loginUserCtrl,
         fetchUserCtrl,
@@ -230,4 +256,5 @@ module.exports = {
         followingUserCtrl,
         unfollowUserCtrl,
         blockUserCtrl,
+        unBlockUserCtrl
     };
