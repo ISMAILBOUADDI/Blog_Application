@@ -241,6 +241,7 @@ const unBlockUserCtrl = expressAsyncHandler(async(req,res)=>{
 
 const profilePohotoUploadCtrl =  expressAsyncHandler(async (req , res) =>
 {
+   console.log(req.file)
     res.json("upload")
 })
 module.exports = {
