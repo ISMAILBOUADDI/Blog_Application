@@ -16,12 +16,20 @@ const {
     profilePohotoUploadCtrl
 } = require('../../controllers/users/usersCtrl');
 const authMiddleware = require('../../middlewares/auth/authMiddleware');
-const profilePohotoUpload = require("../../middlewares/uploads/profilePhotoUpload")
+const {profilePohotoUpload,
+        profilePhotoResize
+} =require("../../middlewares/uploads/profilePhotoUpload")
 const router = express.Router();
 
 router.post('/register', userRegisterCtrl);
 router.post('/login', loginUserCtrl);
-router.put('/profilephoto-upload', authMiddleware, profilePohotoUpload.single('image'), profilePohotoUploadCtrl);
+router.put(
+'/profilephoto-upload',
+authMiddleware,
+profilePohotoUpload.single('image'),
+profilePhotoResize,
+profilePohotoUploadCtrl
+);
 router.get('/', authMiddleware, fetchUserCtrl);
 router.put("/password", authMiddleware, updatePasswordCtrl);
 router.put("/follow",authMiddleware,followingUserCtrl);
