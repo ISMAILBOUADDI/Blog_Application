@@ -33,8 +33,9 @@ const userRegisterCtrl = expressAsyncHandler(async (req, res) => {
         //check if passowrd is correct
         if(user && (await user.isPasswordMatched(password))){
             res.json({
-               firstName:user?.firstName,
-               lastName:user?.lastName, 
+                id:user?._id,
+                firstName:user?.firstName,
+                lastName:user?.lastName, 
                 email:user?.email,
                 profilePhoto:user?.profilePhoto,
                 bio:user?.bio,
@@ -109,7 +110,7 @@ const userDetailsCtrl = expressAsyncHandler(async (req, res) => {
  })
 
  //----------------------------------------------------------------------------------------------------------------------
- //Update User Profile
+ // Update User Profile
  //----------------------------------------------------------------------------------------------------------------------
 const updateUserProfileCtrl = expressAsyncHandler(async (req, res) => {
     const {id} = req?.user
@@ -134,7 +135,7 @@ const updateUserProfileCtrl = expressAsyncHandler(async (req, res) => {
 })
 
 //----------------------------------------------------------------------------------------------------------------------
-//Update password
+// Update password
 //----------------------------------------------------------------------------------------------------------------------
 
     const updatePasswordCtrl = expressAsyncHandler(async (req, res) => {
@@ -157,9 +158,10 @@ const updateUserProfileCtrl = expressAsyncHandler(async (req, res) => {
     })
 
     //----------------------------------------------------------------------------------------------------------------------
-    //following
+    // following
     //----------------------------------------------------------------------------------------------------------------------
-const followingUserCtrl = expressAsyncHandler(async (req, res) => {
+
+    const followingUserCtrl = expressAsyncHandler(async (req, res) => {
     // 1 find the user you want to follow and update it's follower's field
     const {followId} = req?.body
     const loginUserId = req?.user?.id;
