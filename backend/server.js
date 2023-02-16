@@ -1,9 +1,11 @@
+const { request } = require('express');
 const express = require('express');
 const dbConnect = require('./config/db/dbConnect');
 const app = express();
 const PORT = process.env.PORT || 5000;
 const {errorHandles} = require('./middlewares/error/errorHandles');
 const {notFound} = require('./middlewares/error/errorHandles');
+const postRoute = require("./route/posts/postRoute");
 
 //import routes
 const usersRoute = require('./route/users/usersRoute');
@@ -13,6 +15,8 @@ dbConnect();
 app.use(express.json());
 //users Route
 app.use('/api/users', usersRoute);
+//Post route
+app.use('/api/post', postRoute);
 
 //error 
 app.use(notFound);
