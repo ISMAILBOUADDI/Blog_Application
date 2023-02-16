@@ -11,7 +11,7 @@ try {
     });
     console.log("Db is Connected Successfully");
 } catch (error) {
-    console.log(`Rror: ${error.message}`);
+    console.log(`Error: ${error.message}`);
 }
 
 }
