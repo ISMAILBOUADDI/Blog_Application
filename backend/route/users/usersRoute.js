@@ -13,7 +13,8 @@ const {
     unfollowUserCtrl,
     blockUserCtrl,
     unBlockUserCtrl,
-    profilePohotoUploadCtrl
+    profilePohotoUploadCtrl,
+    generateVerficationTokenCtrl
 } = require('../../controllers/users/usersCtrl');
 const authMiddleware = require('../../middlewares/auth/authMiddleware');
 const {profilePohotoUpload,
@@ -30,6 +31,7 @@ profilePohotoUpload.single('image'),
 profilePhotoResize,
 profilePohotoUploadCtrl
 );
+router.post('/sendMail',authMiddleware, generateVerficationTokenCtrl);
 router.get('/', authMiddleware, fetchUserCtrl);
 router.put("/password", authMiddleware, updatePasswordCtrl);
 router.put("/follow",authMiddleware,followingUserCtrl);
